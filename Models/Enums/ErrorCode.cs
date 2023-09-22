@@ -1,0 +1,27 @@
+﻿namespace FoodieLionApi.Models.Enums;
+
+/// <summary>
+/// Code that represents the status of the response
+/// </summary>
+public enum ErrorCode
+{
+    SUCCESS = 200,
+    CREATED = 201,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    NOT_FOUND = 404,
+    INTERNAL_SERVER_ERROR = 500,
+    INVALID_INPUT = 4001,
+    INVALID_FILE_TYPE = 4002,
+    FILE_IS_NULL = 4003,
+    USER_NOT_FOUND = 4004,
+    USER_ALREADY_EXISTS = 4005,
+    WINDOW_NOT_FOUND = 4006,
+    WINDOW_ALREADY_EXISTS = 4007,
+    DISH_NOT_FOUND = 4008,
+    DISH_ALREADY_EXISTS = 4009,
+    NOTIFICATION_NOT_FOUND = 40010,
+    NOTIFICATION_ALREADY_EXISTS = 40011,
+    POST_NOT_FOUND = 40012,
+    INVALID_PASSWORD = 4011,
+}
