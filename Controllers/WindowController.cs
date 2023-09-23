@@ -108,6 +108,21 @@ public class WindowController : ControllerBase
         }
     }
 
+    [HttpPost("{id}")]
+    [Authorize(Roles = "ADMIN,USER")]
+    public async Task<ActionResult<Result<int>>> DecreaseFavoriteCount(Guid id)
+    {
+        try
+        {
+            var cnt = await _windowService.DecreaseFavoriteCountAsync(id);
+            return Ok(new Result<int> { Code = ErrorCode.SUCCESS, Data = cnt });
+        }
+        catch (FoodieLionException ex)
+        {
+            return BadRequest(new Result<int> { Code = ex.Code, Error = ex.Message });
+        }
+    }
+
     [HttpPut("{id}")]
     [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult<Result<Window>>> Update(

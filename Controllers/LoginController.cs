@@ -1,4 +1,5 @@
 ﻿using FoodieLionApi.Models;
+using FoodieLionApi.Models.DTO;
 using FoodieLionApi.Models.Enums;
 using FoodieLionApi.Services.Interface;
 using FoodieLionApi.Utilities;
@@ -17,32 +18,17 @@ public class LoginController : ControllerBase
         _loginService = loginService;
     }
 
-    [HttpPost("{username}/{password}")]
-    public async Task<ActionResult<Result<string>>> Login(string username, string password)
+    [HttpPost]
+    public async Task<ActionResult<Result<string>>> Login([FromBody] LoginDTO loginDto)
     {
         try
         {
-            var token = await _loginService.Login(username, password);
+            var token = await _loginService.Login(loginDto.UserNameOrEmail, loginDto.Password);
             return new Result<string> { Code = ErrorCode.SUCCESS, Data = token };
         }
         catch (FoodieLionException e)
         {
-            ActionResult<Result<string>> res = e.Code switch
-            {
-                ErrorCode.USER_NOT_FOUND
-                    => BadRequest(
-                        new Result<string> { Code = ErrorCode.USER_NOT_FOUND, Error = e.Message }
-                    ),
-                ErrorCode.INVALID_PASSWORD
-                    => Unauthorized(
-                        new Result<string> { Code = ErrorCode.INVALID_PASSWORD, Error = e.Message }
-                    ),
-                _
-                    => BadRequest(
-                        new Result<string> { Code = ErrorCode.BAD_REQUEST, Error = e.Message }
-                    )
-            };
-            return res;
+            return BadRequest(new Result<string>() { Code = e.Code, Error = e.Message });
         }
     }
 }

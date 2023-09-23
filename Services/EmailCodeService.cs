@@ -53,7 +53,7 @@ public class EmailCodeService : IEmailCodeService
     {
         var code = new Random().Next(100000, 999999).ToString();
         var message = new MailMessage(
-            _configuration.GetValue<string>("Smtp:Host"),
+            _configuration.GetValue<string>("Smtp:UserName"),
             email,
             "Foodie Lion Email Verification",
             $"Your verification code is {code}"

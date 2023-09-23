@@ -18,6 +18,8 @@ namespace FoodieLionApi.Services.Interface
 
         Task<int> IncreaseFavoriteCountAsync(Guid windowId);
 
+        Task<int> DecreaseFavoriteCountAsync(Guid windowId);
+
         Task<List<Window>> GetWindowsByCanteenAsync(string canteen);
     }
 }

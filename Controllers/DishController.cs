@@ -112,6 +112,21 @@ public class DishController : ControllerBase
         }
     }
 
+    [HttpPost("{id}")]
+    [Authorize(Roles = "ADMIN,USER")]
+    public async Task<ActionResult<Result<int>>> DecreaseFavoriteCount(Guid id)
+    {
+        try
+        {
+            var count = await _dishService.DecreaseFavoriteCountAsync(id);
+            return Ok(new Result<int> { Code = ErrorCode.SUCCESS, Data = count });
+        }
+        catch (FoodieLionException ex)
+        {
+            return BadRequest(new Result<int> { Code = ex.Code, Error = ex.Message });
+        }
+    }
+
     [HttpGet("{canteen}")]
     public async Task<ActionResult<Result<List<Dish>>>> GetByCanteen(
         string canteen,

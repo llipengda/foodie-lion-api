@@ -50,9 +50,23 @@ public class UserController : ControllerBase
     [HttpGet("{name}")]
     public async Task<ActionResult<Result<List<UserOutDto>>>> GetByName(string name)
     {
-        var users = await _userService.GetUserByNameAsync(name);
+        var users = await _userService.GetUsersByNameAsync(name);
         var res = new Result<List<UserOutDto>> { Code = ErrorCode.SUCCESS, Data = users };
         return Ok(res);
+    }
+
+    [HttpGet("nameOrEmail")]
+    public async Task<ActionResult<Result<UserOutDto>>> GetByNameOrEmail(string nameOrEmail)
+    {
+        try
+        {
+            var res = await _userService.GetUserByNameOrEmailAsync(nameOrEmail);
+            return Ok(new Result<UserOutDto>(res));
+        }
+        catch (FoodieLionException e)
+        {
+            return BadRequest(new Result<UserOutDto>() { Code = e.Code, Error = e.Message });
+        }
     }
 
     [HttpGet("{email}")]

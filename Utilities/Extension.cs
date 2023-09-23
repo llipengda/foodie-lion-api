@@ -23,6 +23,7 @@ public static class Extension
         services.AddScoped<IDishService, DishService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IPostService, PostService>();
+        services.AddScoped<IUserLikeService, UserLikeService>();
     }
 
     public static void AddFilters(this MvcOptions option)

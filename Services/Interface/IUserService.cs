@@ -11,7 +11,9 @@ public interface IUserService
 
     Task<UserOutDto> GetUserByIdAsync(Guid id);
 
-    Task<List<UserOutDto>> GetUserByNameAsync(string name);
+    Task<List<UserOutDto>> GetUsersByNameAsync(string name);
+
+    Task<UserOutDto> GetUserByNameOrEmailAsync(string nameOrEmail);
 
     Task<UserOutDto> GetUserByEmailAsync(string email);
 

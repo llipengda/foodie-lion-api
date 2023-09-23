@@ -153,6 +153,16 @@ public class DishService : IDishService
         return dish.FavoriteCount;
     }
 
+    public async Task<int> DecreaseFavoriteCountAsync(Guid dishId)
+    {
+        var dish =
+            await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId)
+            ?? throw new FoodieLionException("Dish not found", ErrorCode.DISH_NOT_FOUND);
+        dish.FavoriteCount--;
+        await _context.SaveChangesAsync();
+        return dish.FavoriteCount;
+    }
+
     public async Task<List<Dish>> GetDishesByCanteenAsync(
         string canteen,
         string? order = "favoriteCount",

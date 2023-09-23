@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodieLionApi.Migrations
 {
     [DbContext(typeof(FoodieLionDbContext))]
-    [Migration("20230921223459_Init")]
+    [Migration("20230922180644_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -81,7 +81,7 @@ namespace FoodieLionApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 9, 21, 22, 34, 59, 495, DateTimeKind.Utc).AddTicks(6745))
+                        .HasDefaultValue(new DateTime(2023, 9, 22, 18, 6, 44, 37, DateTimeKind.Utc).AddTicks(7239))
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
@@ -93,7 +93,7 @@ namespace FoodieLionApi.Migrations
                     b.Property<DateTime>("ExpiredAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 9, 21, 22, 49, 59, 495, DateTimeKind.Utc).AddTicks(6841))
+                        .HasDefaultValue(new DateTime(2023, 9, 22, 18, 21, 44, 37, DateTimeKind.Utc).AddTicks(7292))
                         .HasColumnName("expired_at");
 
                     b.HasKey("Id");
@@ -216,6 +216,29 @@ namespace FoodieLionApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("FoodieLionApi.Models.Entities.UserLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("LikedName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("liked_name");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("user_name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user_likes", (string)null);
                 });
 
             modelBuilder.Entity("FoodieLionApi.Models.Entities.Window", b =>

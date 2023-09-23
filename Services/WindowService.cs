@@ -81,6 +81,16 @@ public class WindowService : IWindowService
         return cnt;
     }
 
+    public async Task<int> DecreaseFavoriteCountAsync(Guid windowId)
+    {
+        var window =
+            await _context.Windows.FindAsync(windowId)
+            ?? throw new FoodieLionException("Window not found", ErrorCode.WINDOW_NOT_FOUND);
+        var cnt = --window.FavoriteCount;
+        await _context.SaveChangesAsync();
+        return cnt;
+    }
+
     public async Task<Window> UpdateWindowAsync(
         Guid windowId,
         UpdateWindowParams updateWindowParams

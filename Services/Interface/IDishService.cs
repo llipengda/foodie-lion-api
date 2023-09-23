@@ -18,6 +18,8 @@ public interface IDishService
 
     Task<int> IncreaseFavoriteCountAsync(Guid dishId);
 
+    Task<int> DecreaseFavoriteCountAsync(Guid dishId);
+
     Task<List<Dish>> GetDishesByCanteenAsync(string canteen, string? order = "favoriteCount", bool? desending = true);
 
     Task<List<Dish>> GetDishesByCanteenAndWindowAsync(string canteen, string window, string? order = "favoriteCount", bool? desending = true);

@@ -71,12 +71,21 @@ public class UserService : IUserService
         );
     }
 
-    public async Task<List<UserOutDto>> GetUserByNameAsync(string name)
+    public async Task<List<UserOutDto>> GetUsersByNameAsync(string name)
     {
         return await _context.Users
             .Where(u => u.Name.Contains(name))
             .Select(u => _mapper.Map<UserOutDto>(u))
             .ToListAsync();
+    }
+
+    public async Task<UserOutDto> GetUserByNameOrEmailAsync(string nameOrEmail)
+    {
+        var user =
+            await _context.Users.FirstOrDefaultAsync(
+                u => u.Name == nameOrEmail || u.Email == nameOrEmail
+            ) ?? throw new FoodieLionException("User not found", ErrorCode.USER_NOT_FOUND);
+        return _mapper.Map<UserOutDto>(user);
     }
 
     public async Task<UserOutDto> GetUserByEmailAsync(string email)
