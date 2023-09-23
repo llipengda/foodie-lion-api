@@ -1,6 +1,9 @@
-﻿using FoodieLionApi.Models.Enums;
+﻿using FoodieLionApi.Models;
+using FoodieLionApi.Models.Entities;
+using FoodieLionApi.Models.Enums;
 using FoodieLionApi.Services.Interface;
 using FoodieLionApi.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodieLionApi.Services;
 
@@ -8,9 +11,12 @@ public class ImageService : IImageService
 {
     private readonly IConfiguration _configuration;
 
-    public ImageService(IConfiguration configuration)
+    private readonly FoodieLionDbContext _context;
+
+    public ImageService(IConfiguration configuration, FoodieLionDbContext context)
     {
         _configuration = configuration;
+        _context = context;
     }
 
     private readonly string[] permittedExtensions = { ".jpg", ".png", ".jpeg", ".bmp" };
@@ -36,5 +42,27 @@ public class ImageService : IImageService
         using var stream = new FileStream(filePath, FileMode.Create);
         await file.CopyToAsync(stream);
         return urlPath;
+    }
+
+    public async Task<List<HomeImage>> GetHomeImages()
+    {
+        return await _context.HomeImages.ToListAsync();
+    }
+
+    public async Task<HomeImage> AddHomeImage(string url)
+    {
+        var added = await _context.HomeImages.AddAsync(new HomeImage { Url = url });
+        await _context.SaveChangesAsync();
+        return added.Entity;
+    }
+
+    public async Task<HomeImage> DeleteHomeImage(Guid id)
+    {
+        var toDel =
+            await _context.HomeImages.FindAsync(id)
+            ?? throw new FoodieLionException("Image not found", ErrorCode.IMAGE_NOT_FOUND);
+        _context.HomeImages.Remove(toDel);
+        await _context.SaveChangesAsync();
+        return toDel;
     }
 }

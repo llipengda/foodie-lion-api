@@ -19,6 +19,8 @@ public class FoodieLionDbContext : DbContext
 
     public DbSet<UserLike> UserLikes { get; set; }
 
+    public DbSet<HomeImage> HomeImages { get; set; }
+
     public FoodieLionDbContext(DbContextOptions<FoodieLionDbContext> options)
         : base(options) { }
 }
